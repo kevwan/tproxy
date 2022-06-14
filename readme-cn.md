@@ -18,7 +18,7 @@
 ## 安装
 
 ```shell
-$ go install github.com/kevwan/tproxy@latest
+$ GOPROXY=https://goproxy.cn/,direct go install github.com/kevwan/tproxy@latest
 ```
 
 或者使用 docker 镜像：
