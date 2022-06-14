@@ -46,7 +46,7 @@ Usage of tproxy:
   -silent
         Only prints connection open/close and stats, default false
   -t string
-        the type of protocol, currently support grpc
+        The type of protocol, currently support grpc
 ```
 
 ## Examples
