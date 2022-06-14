@@ -13,7 +13,7 @@ func main() {
 		localPort = flag.Int("p", 0, "Local port to listen on")
 		localHost = flag.String("l", "localhost", "Local address to listen on")
 		remote    = flag.String("r", "", "Remote address (host:port) to connect")
-		protocol  = flag.String("t", "", "the type of protocol, currently support grpc")
+		protocol  = flag.String("t", "", "The type of protocol, currently support grpc")
 		silent    = flag.Bool("silent", false, "Only prints connection open/close and stats, default false")
 	)
 

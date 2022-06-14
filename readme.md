@@ -24,13 +24,13 @@ $ go install github.com/kevwan/tproxy@latest
 Or use docker images:
 
 ```shell
-docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
+$ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
 ```
 
 For arm64:
 
 ```shell
-docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1-arm64 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
+$ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1-arm64 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
 ```
 
 ## Usages
@@ -55,7 +55,7 @@ Usage of tproxy:
 ### Monitor gRPC connections
 
 ```shell
-tproxy -p 8088 -r localhost:8081 -t grpc
+$ tproxy -p 8088 -r localhost:8081 -t grpc
 ```
 
 - listen on localhost and port 8088
@@ -67,11 +67,11 @@ tproxy -p 8088 -r localhost:8081 -t grpc
 ### Monitor MySQL connections
 
 ```shell
-tproxy -p 3307 -r localhost:3306
+$ tproxy -p 3307 -r localhost:3306
 ```
 
 ![mysql](images/mysql.png)
 
 ## Give a Star! ⭐
 
-If you like or are using this project to learn or start your solution, please give it a star. Thanks!
+If you like or are using this project, please give it a **star**. Thanks!

@@ -24,13 +24,13 @@ $ GOPROXY=https://goproxy.cn/,direct go install github.com/kevwan/tproxy@latest
 或者使用 docker 镜像：
 
 ```shell
-docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
+$ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
 ```
 
 arm64 系统:
 
 ```shell
-docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1-arm64 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
+$ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1-arm64 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
 ```
 
 ## 用法
@@ -55,7 +55,7 @@ Usage of tproxy:
 ### 分析 gRPC 连接
 
 ```shell
-tproxy -p 8088 -r localhost:8081 -t grpc
+$ tproxy -p 8088 -r localhost:8081 -t grpc
 ```
 
 - 侦听在 localhost 和 8088 端口
@@ -67,7 +67,7 @@ tproxy -p 8088 -r localhost:8081 -t grpc
 ### 分析 MySQL 连接
 
 ```shell
-tproxy -p 3307 -r localhost:3306
+$ tproxy -p 3307 -r localhost:3306
 ```
 
 ![mysql](images/mysql.png)
