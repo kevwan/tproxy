@@ -60,6 +60,7 @@ func (c *PairedConnection) handleServerMessage() {
 
 func (c *PairedConnection) process() {
 	conn, err := net.Dial("tcp", settings.RemoteHost)
+	defer c.stop()
 	if err != nil {
 		display.PrintlnWithTime(color.HiRedString("[x][%d] Couldn't connect to server: %v", c.id, err))
 		return
@@ -71,7 +72,6 @@ func (c *PairedConnection) process() {
 	go c.handleServerMessage()
 
 	c.handleClientMessage()
-	c.stop()
 }
 
 func (c *PairedConnection) stop() {
