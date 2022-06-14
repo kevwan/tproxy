@@ -3,7 +3,6 @@
 English | [简体中文](readme-cn.md)
 
 [![Go](https://github.com/kevwan/tproxy/workflows/Go/badge.svg?branch=main)](https://github.com/kevwan/tproxy/actions)
-[![codecov](https://codecov.io/gh/kevwan/tproxy/branch/main/graph/badge.svg)](https://codecov.io/gh/kevwan/tproxy)
 [![Go Report Card](https://goreportcard.com/badge/github.com/kevwan/tproxy)](https://goreportcard.com/report/github.com/kevwan/tproxy)
 [![Release](https://img.shields.io/github/v/release/kevwan/tproxy.svg?style=flat-square)](https://github.com/kevwan/tproxy)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
