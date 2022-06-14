@@ -6,6 +6,7 @@ import (
 	"net"
 	"sync"
 
+	"github.com/fatih/color"
 	"github.com/kevwan/tproxy/display"
 	"github.com/kevwan/tproxy/protocol"
 )
@@ -38,7 +39,7 @@ func (c *PairedConnection) handleClientMessage() {
 
 	_, e := io.Copy(tee, c.cliConn)
 	if e != nil && e != io.EOF {
-		fmt.Printf("handleClientMessage: io.Copy error: %v", e)
+		color.HiRed("handleClientMessage: io.Copy error: %v", e)
 	}
 }
 
@@ -50,7 +51,7 @@ func (c *PairedConnection) handleServerMessage() {
 	if e != nil && e != io.EOF {
 		netOpError, ok := e.(*net.OpError)
 		if ok && netOpError.Err.Error() != useOfClosedConn {
-			fmt.Printf("handleServerMessage: io.Copy error: %v", e)
+			color.HiRed("handleServerMessage: io.Copy error: %v", e)
 		}
 	}
 
@@ -60,11 +61,11 @@ func (c *PairedConnection) handleServerMessage() {
 func (c *PairedConnection) process() {
 	conn, err := net.Dial("tcp", settings.RemoteHost)
 	if err != nil {
-		display.PrintfWithTime("[x][%d] Couldn't connect to server: %v\n", c.id, err)
+		display.PrintlnWithTime(color.HiRedString("[x][%d] Couldn't connect to server: %v", c.id, err))
 		return
 	}
 
-	display.PrintfWithTime("[*][%d] Connected to server: %s\n", c.id, conn.RemoteAddr())
+	display.PrintlnWithTime(color.HiGreenString("[%d] Connected to server: %s", c.id, conn.RemoteAddr()))
 
 	c.svrConn = conn
 	go c.handleServerMessage()
@@ -76,11 +77,11 @@ func (c *PairedConnection) process() {
 func (c *PairedConnection) stop() {
 	c.once.Do(func() {
 		if c.cliConn != nil {
-			display.PrintfWithTime("[*][%d] Client connection closed\n", c.id)
+			display.PrintlnWithTime(color.HiBlueString("[%d] Client connection closed", c.id))
 			c.cliConn.Close()
 		}
 		if c.svrConn != nil {
-			display.PrintfWithTime("[*][%d] Server connection closed\n", c.id)
+			display.PrintlnWithTime(color.HiBlueString("[%d] Server connection closed", c.id))
 			c.svrConn.Close()
 		}
 	})
@@ -92,7 +93,7 @@ func startListener() error {
 		return fmt.Errorf("failed to start listener: %w", err)
 	}
 
-	display.PrintlnWithTime("[*] Listening...")
+	display.PrintlnWithTime("Listening...")
 	defer conn.Close()
 
 	var connIndex int
@@ -103,7 +104,7 @@ func startListener() error {
 		}
 
 		connIndex++
-		display.PrintfWithTime("[*][%d] Accepted from: %s\n", connIndex, cliConn.RemoteAddr())
+		display.PrintlnWithTime(color.HiGreenString("[%d] Accepted from: %s", connIndex, cliConn.RemoteAddr()))
 
 		pconn := NewPairedConnection(connIndex, cliConn)
 		go pconn.process()

@@ -61,7 +61,7 @@ $ tproxy -p 8088 -r localhost:8081 -t grpc
 - redirect the traffic to localhost:8081
 - protocol type to be gRPC
 
-![grpc](images/grpc.png)
+<img width="600" alt="image" src="images/grpc.png">
 
 ### Monitor MySQL connections
 
@@ -69,7 +69,7 @@ $ tproxy -p 8088 -r localhost:8081 -t grpc
 $ tproxy -p 3307 -r localhost:3306
 ```
 
-![mysql](images/mysql.png)
+<img width="600" alt="image" src="images/mysql.png">
 
 ## Give a Star! ⭐
 

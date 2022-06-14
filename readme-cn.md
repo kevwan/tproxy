@@ -61,7 +61,7 @@ $ tproxy -p 8088 -r localhost:8081 -t grpc
 - 重定向请求到 localhost:8081
 - 识别数据包格式为 gRPC
 
-![grpc](images/grpc.png)
+<img width="600" alt="image" src="images/grpc.png">
 
 ### 分析 MySQL 连接
 
@@ -69,7 +69,7 @@ $ tproxy -p 8088 -r localhost:8081 -t grpc
 $ tproxy -p 3307 -r localhost:3306
 ```
 
-![mysql](images/mysql.png)
+<img width="600" alt="image" src="images/mysql.png">
 
 ## 欢迎 star！⭐
 
