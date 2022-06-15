@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/fatih/color v1.13.0
-	github.com/grpc/grpc/tools/http2_interop v0.0.0-20220611023707-932878b1ce81
+	github.com/grpc/grpc/tools/http2_interop v0.0.0-20220615001509-d0751191a921
 	github.com/olekukonko/tablewriter v0.0.5
 )
 
