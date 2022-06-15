@@ -32,16 +32,16 @@ type Dumper struct {
 	r       io.Reader
 	source  string
 	id      int
-	silent  bool
+	quiet   bool
 	interop Interop
 }
 
-func NewDumper(r io.Reader, source string, id int, silent bool, interop Interop) Dumper {
+func NewDumper(r io.Reader, source string, id int, quiet bool, interop Interop) Dumper {
 	return Dumper{
 		r:       r,
 		source:  source,
 		id:      id,
-		silent:  silent,
+		quiet:   quiet,
 		interop: interop,
 	}
 }
@@ -50,7 +50,7 @@ func (d Dumper) Dump() {
 	data := make([]byte, bufferSize)
 	for {
 		n, err := d.r.Read(data)
-		if n > 0 && !d.silent {
+		if n > 0 && !d.quiet {
 			prot := d.interop.Protocol()
 			frameType, ok := d.interop.Interop(data)
 			if ok {

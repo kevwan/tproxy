@@ -15,6 +15,7 @@
 **/.DS_Store
 **/logs
 modd.conf
+makefile
 
 # for test purpose
 **/adhoc

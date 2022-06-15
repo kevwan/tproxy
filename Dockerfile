@@ -24,6 +24,6 @@ COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/S
 ENV TZ Asia/Shanghai
 
 WORKDIR /app
-COPY --from=builder /app/tproxy /app/tproxy
+COPY --from=builder /app/tproxy /usr/local/bin/tproxy
 
-CMD ["./tproxy"]
+CMD ["tproxy"]

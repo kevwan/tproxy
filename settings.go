@@ -8,11 +8,11 @@ type Settings struct {
 	LocalPort  int
 	Delay      time.Duration
 	Protocol   string
-	Silent     bool
+	Quiet      bool
 }
 
 func saveSettings(localHost string, localPort int, remoteHost string, delay time.Duration,
-	protocol string, silent bool) {
+	protocol string, quiet bool) {
 	if localHost != "" {
 		settings.LocalHost = localHost
 	}
@@ -24,5 +24,5 @@ func saveSettings(localHost string, localPort int, remoteHost string, delay time
 	}
 	settings.Delay = delay
 	settings.Protocol = protocol
-	settings.Silent = silent
+	settings.Quiet = quiet
 }

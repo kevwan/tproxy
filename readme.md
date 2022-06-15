@@ -43,10 +43,9 @@ Usage of tproxy:
     	Local address to listen on (default "localhost")
   -p int
     	Local port to listen on
+  -q	Quiet mode, only prints connection open/close and stats, default false
   -r string
     	Remote address (host:port) to connect
-  -silent
-    	Only prints connection open/close and stats, default false
   -t string
     	The type of protocol, currently support grpc
 ```
@@ -56,12 +55,13 @@ Usage of tproxy:
 ### Monitor gRPC connections
 
 ```shell
-$ tproxy -p 8088 -r localhost:8081 -t grpc
+$ tproxy -p 8088 -r localhost:8081 -t grpc -d 100ms
 ```
 
 - listen on localhost and port 8088
-- redirect the traffic to localhost:8081
+- redirect the traffic to `localhost:8081`
 - protocol type to be gRPC
+- delay 100ms for each packets
 
 <img width="600" alt="image" src="images/grpc.png">
 

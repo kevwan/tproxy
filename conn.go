@@ -44,7 +44,7 @@ func (c *PairedConnection) handleClientMessage() {
 	r, w := io.Pipe()
 	tee := io.MultiWriter(c.svrConn, w)
 
-	go protocol.NewDumper(r, clientSide, c.id, settings.Silent, protocol.CreateInterop(settings.Protocol)).Dump()
+	go protocol.NewDumper(r, clientSide, c.id, settings.Quiet, protocol.CreateInterop(settings.Protocol)).Dump()
 
 	_, e := io.Copy(tee, c.cliConn)
 	if e != nil && e != io.EOF {
@@ -58,7 +58,7 @@ func (c *PairedConnection) handleServerMessage() {
 
 	r, w := io.Pipe()
 	tee := io.MultiWriter(newDelayedWriter(c.cliConn, settings.Delay, c.stopChan), w)
-	go protocol.NewDumper(r, serverSide, c.id, settings.Silent, protocol.CreateInterop(settings.Protocol)).Dump()
+	go protocol.NewDumper(r, serverSide, c.id, settings.Quiet, protocol.CreateInterop(settings.Protocol)).Dump()
 	_, e := io.Copy(tee, c.svrConn)
 	if e != nil && e != io.EOF {
 		netOpError, ok := e.(*net.OpError)
