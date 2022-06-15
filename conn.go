@@ -1,10 +1,12 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net"
 	"sync"
+	"time"
 
 	"github.com/fatih/color"
 	"github.com/kevwan/tproxy/display"
@@ -17,21 +19,28 @@ const (
 	useOfClosedConn = "use of closed network connection"
 )
 
+var clientCanceled = errors.New("client canceled")
+
 type PairedConnection struct {
-	id      int
-	cliConn net.Conn
-	svrConn net.Conn
-	once    sync.Once
+	id       int
+	cliConn  net.Conn
+	svrConn  net.Conn
+	once     sync.Once
+	stopChan chan struct{}
 }
 
 func NewPairedConnection(id int, cliConn net.Conn) *PairedConnection {
 	return &PairedConnection{
-		id:      id,
-		cliConn: cliConn,
+		id:       id,
+		cliConn:  cliConn,
+		stopChan: make(chan struct{}),
 	}
 }
 
 func (c *PairedConnection) handleClientMessage() {
+	// client closed also trigger server close.
+	defer c.stop()
+
 	r, w := io.Pipe()
 	tee := io.MultiWriter(c.svrConn, w)
 
@@ -44,8 +53,11 @@ func (c *PairedConnection) handleClientMessage() {
 }
 
 func (c *PairedConnection) handleServerMessage() {
+	// server closed also trigger client close.
+	defer c.stop()
+
 	r, w := io.Pipe()
-	tee := io.MultiWriter(c.cliConn, w)
+	tee := io.MultiWriter(newDelayedWriter(c.cliConn, settings.Delay, c.stopChan), w)
 	go protocol.NewDumper(r, serverSide, c.id, settings.Silent, protocol.CreateInterop(settings.Protocol)).Dump()
 	_, e := io.Copy(tee, c.svrConn)
 	if e != nil && e != io.EOF {
@@ -54,13 +66,12 @@ func (c *PairedConnection) handleServerMessage() {
 			color.HiRed("handleServerMessage: io.Copy error: %v", e)
 		}
 	}
-
-	c.stop()
 }
 
 func (c *PairedConnection) process() {
-	conn, err := net.Dial("tcp", settings.RemoteHost)
 	defer c.stop()
+
+	conn, err := net.Dial("tcp", settings.RemoteHost)
 	if err != nil {
 		display.PrintlnWithTime(color.HiRedString("[x][%d] Couldn't connect to server: %v", c.id, err))
 		return
@@ -76,6 +87,7 @@ func (c *PairedConnection) process() {
 
 func (c *PairedConnection) stop() {
 	c.once.Do(func() {
+		close(c.stopChan)
 		if c.cliConn != nil {
 			display.PrintlnWithTime(color.HiBlueString("[%d] Client connection closed", c.id))
 			c.cliConn.Close()
@@ -108,5 +120,34 @@ func startListener() error {
 
 		pconn := NewPairedConnection(connIndex, cliConn)
 		go pconn.process()
+	}
+}
+
+type delayedWriter struct {
+	writer   io.Writer
+	delay    time.Duration
+	stopChan <-chan struct{}
+}
+
+func newDelayedWriter(writer io.Writer, delay time.Duration, stopChan <-chan struct{}) delayedWriter {
+	return delayedWriter{
+		writer:   writer,
+		delay:    delay,
+		stopChan: stopChan,
+	}
+}
+
+func (w delayedWriter) Write(p []byte) (int, error) {
+	if w.delay == 0 {
+		return w.writer.Write(p)
+	}
+
+	timer := time.NewTimer(w.delay)
+	defer timer.Stop()
+	select {
+	case <-timer.C:
+		return w.writer.Write(p)
+	case <-w.stopChan:
+		return 0, clientCanceled
 	}
 }

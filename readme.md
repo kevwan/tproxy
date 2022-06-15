@@ -37,16 +37,18 @@ $ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-po
 ```shell
 $ tproxy --help
 Usage of tproxy:
+  -d duration
+    	the delay to relay packets
   -l string
-        Local address to listen on (default "localhost")
+    	Local address to listen on (default "localhost")
   -p int
-        Local port to listen on
+    	Local port to listen on
   -r string
-        Remote address (host:port) to connect
+    	Remote address (host:port) to connect
   -silent
-        Only prints connection open/close and stats, default false
+    	Only prints connection open/close and stats, default false
   -t string
-        The type of protocol, currently support grpc
+    	The type of protocol, currently support grpc
 ```
 
 ## Examples
