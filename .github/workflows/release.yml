@@ -23,5 +23,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
-          extra_files: readme.md readme-cn.md
+          #extra_files: readme.md readme-cn.md
           binary_name: "tproxy"
