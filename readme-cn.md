@@ -23,13 +23,13 @@ $ GOPROXY=https://goproxy.cn/,direct go install github.com/kevwan/tproxy@latest
 或者使用 docker 镜像：
 
 ```shell
-$ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1 ./tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
+$ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
 ```
 
 arm64 系统:
 
 ```shell
-$ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1-arm64 ./tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
+$ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1-arm64 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
 ```
 
 ## 用法

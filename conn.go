@@ -19,7 +19,7 @@ const (
 	useOfClosedConn = "use of closed network connection"
 )
 
-var clientCanceled = errors.New("client canceled")
+var errClientCanceled = errors.New("client canceled")
 
 type PairedConnection struct {
 	id       int
@@ -148,6 +148,6 @@ func (w delayedWriter) Write(p []byte) (int, error) {
 	case <-timer.C:
 		return w.writer.Write(p)
 	case <-w.stopChan:
-		return 0, clientCanceled
+		return 0, errClientCanceled
 	}
 }
