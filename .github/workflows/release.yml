@@ -4,7 +4,7 @@ on:
     types: [created]
 jobs:
   releases-matrix:
-    name: Release goctl binary
+    name: Release tproxy binary
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,6 +17,10 @@ jobs:
             goos: darwin
     steps:
       - uses: actions/checkout@v3
+      - uses: wangyoucao577/go-release-action@v1.29
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
           binary_name: "tproxy"
+          extra_files: readme-cn.md readme.md
