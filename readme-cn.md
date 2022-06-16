@@ -63,7 +63,7 @@ $ tproxy -p 8088 -r localhost:8081 -t grpc
 - 识别数据包格式为 gRPC
 - 数据包延迟100毫秒
 
-<img width="600" alt="image" src="images/grpc.png">
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/1918356/173970015-404dfab1-3de5-4937-89a5-3e4ddc53e5d6.png">
 
 ### 分析 MySQL 连接
 
@@ -71,7 +71,7 @@ $ tproxy -p 8088 -r localhost:8081 -t grpc
 $ tproxy -p 3307 -r localhost:3306
 ```
 
-<img width="600" alt="image" src="images/mysql.png">
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/1918356/173970130-944e4265-8ba6-4d2e-b091-1f6a5de81070.png">
 
 ## 欢迎 star！⭐
 
