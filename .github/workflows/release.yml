@@ -17,10 +17,6 @@ jobs:
             goos: darwin
     steps:
       - uses: actions/checkout@v3
-      - uses: wangyoucao577/go-release-action@v1.28
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          goos: ${{ matrix.goos }}
-          goarch: ${{ matrix.goarch }}
-          extra_files: readme.md readme-cn.md
+          token: ${{ secrets.GITHUB_TOKEN }}
           binary_name: "tproxy"
