@@ -52,13 +52,14 @@ func (d Dumper) Dump() {
 		n, err := d.r.Read(data)
 		if n > 0 && !d.quiet {
 			prot := d.interop.Protocol()
-			frameType, ok := d.interop.Interop(data)
+			frameInfo, ok := d.interop.Interop(data)
 			if ok {
 				display.PrintfWithTime("from %s [%d] %s%s%s:\n",
 					d.source,
 					d.id,
 					color.HiBlueString("%s:(", prot),
-					frameType, color.HiBlueString(")"))
+					color.HiYellowString(frameInfo),
+					color.HiBlueString(")"))
 			} else {
 				display.PrintfWithTime("from %s [%d]:\n", d.source, d.id)
 			}
