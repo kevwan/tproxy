@@ -63,7 +63,7 @@ $ tproxy -p 8088 -r localhost:8081 -t grpc -d 100ms
 - protocol type to be gRPC
 - delay 100ms for each packets
 
-<img width="600" alt="image" src="https://user-images.githubusercontent.com/1918356/173970015-404dfab1-3de5-4937-89a5-3e4ddc53e5d6.png">
+<img width="561" alt="image" src="https://user-images.githubusercontent.com/1918356/174335713-259de707-c9f5-40f1-a96f-780232d23f43.png">
 
 ### Monitor MySQL connections
 
