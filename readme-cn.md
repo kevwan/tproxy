@@ -7,6 +7,8 @@
 [![Release](https://img.shields.io/github/v/release/kevwan/tproxy.svg?style=flat-square)](https://github.com/kevwan/tproxy)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+<a href="https://www.buymeacoffee.com/kevwan"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=kevwan&button_colour=40DCA5&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
+
 ## 为啥写这个工具
 
 当我在做后端开发或者写 [go-zero](https://github.com/zeromicro/go-zero) 的时候，经常会需要监控网络连接，分析请求内容。比如：
