@@ -57,7 +57,7 @@ Usage of tproxy:
 ### 分析 gRPC 连接
 
 ```shell
-$ tproxy -p 8088 -r localhost:8081 -t grpc
+$ tproxy -p 8088 -r localhost:8081 -t grpc -d 100ms
 ```
 
 - 侦听在 localhost 和 8088 端口
