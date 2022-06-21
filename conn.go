@@ -100,12 +100,17 @@ func (c *PairedConnection) stop() {
 }
 
 func startListener() error {
+	listenerPort := settings.LocalPort
 	conn, err := net.Listen("tcp", fmt.Sprint(settings.LocalHost, ":", settings.LocalPort))
 	if err != nil {
 		return fmt.Errorf("failed to start listener: %w", err)
 	}
 
-	display.PrintlnWithTime("Listening...")
+	if listenerPort == 0 {
+		listenerPort = conn.Addr().(*net.TCPAddr).Port
+	}
+	display.PrintfWithTime("Listening on %s...\n", fmt.Sprint(settings.LocalHost, ":", listenerPort))
+
 	defer conn.Close()
 
 	var connIndex int
