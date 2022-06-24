@@ -21,6 +21,11 @@ func main() {
 			"Quiet mode, only prints connection open/close and stats, default false")
 	)
 
+	if len(os.Args) <= 1 {
+		flag.Usage()
+		return
+	}
+
 	flag.Parse()
 	saveSettings(*localHost, *localPort, *remote, *delay, *protocol, *quiet)
 
