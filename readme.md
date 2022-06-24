@@ -44,7 +44,7 @@ Usage of tproxy:
   -l string
     	Local address to listen on (default "localhost")
   -p int
-    	Local port to listen on
+    	Local port to listen on, default to pick a random port
   -q	Quiet mode, only prints connection open/close and stats, default false
   -r string
     	Remote address (host:port) to connect
