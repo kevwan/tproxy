@@ -24,8 +24,8 @@ func main() {
 	flag.Parse()
 	saveSettings(*localHost, *localPort, *remote, *delay, *protocol, *quiet)
 
-	if settings.RemoteHost == "" {
-		fmt.Fprintln(os.Stderr, color.HiRedString("[x] Remote host required"))
+	if len(settings.Remote) == 0 {
+		fmt.Fprintln(os.Stderr, color.HiRedString("[x] Remote target required"))
 		flag.PrintDefaults()
 		os.Exit(1)
 	}

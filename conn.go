@@ -71,7 +71,7 @@ func (c *PairedConnection) handleServerMessage() {
 func (c *PairedConnection) process() {
 	defer c.stop()
 
-	conn, err := net.Dial("tcp", settings.RemoteHost)
+	conn, err := net.Dial("tcp", settings.Remote)
 	if err != nil {
 		display.PrintlnWithTime(color.HiRedString("[x][%d] Couldn't connect to server: %v", c.id, err))
 		return
@@ -100,18 +100,13 @@ func (c *PairedConnection) stop() {
 }
 
 func startListener() error {
-	listenerPort := settings.LocalPort
-	conn, err := net.Listen("tcp", fmt.Sprint(settings.LocalHost, ":", settings.LocalPort))
+	conn, err := net.Listen("tcp", fmt.Sprintf("%s:%d", settings.LocalHost, settings.LocalPort))
 	if err != nil {
 		return fmt.Errorf("failed to start listener: %w", err)
 	}
-
-	if listenerPort == 0 {
-		listenerPort = conn.Addr().(*net.TCPAddr).Port
-	}
-	display.PrintfWithTime("Listening on %s...\n", fmt.Sprint(settings.LocalHost, ":", listenerPort))
-
 	defer conn.Close()
+
+	display.PrintfWithTime("Listening on %s...\n", conn.Addr().String())
 
 	var connIndex int
 	for {
@@ -121,7 +116,8 @@ func startListener() error {
 		}
 
 		connIndex++
-		display.PrintlnWithTime(color.HiGreenString("[%d] Accepted from: %s", connIndex, cliConn.RemoteAddr()))
+		display.PrintlnWithTime(color.HiGreenString("[%d] Accepted from: %s",
+			connIndex, cliConn.RemoteAddr()))
 
 		pconn := NewPairedConnection(connIndex, cliConn)
 		go pconn.process()

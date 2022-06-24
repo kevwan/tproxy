@@ -3,15 +3,15 @@ package main
 import "time"
 
 type Settings struct {
-	RemoteHost string
-	LocalHost  string
-	LocalPort  int
-	Delay      time.Duration
-	Protocol   string
-	Quiet      bool
+	Remote    string
+	LocalHost string
+	LocalPort int
+	Delay     time.Duration
+	Protocol  string
+	Quiet     bool
 }
 
-func saveSettings(localHost string, localPort int, remoteHost string, delay time.Duration,
+func saveSettings(localHost string, localPort int, remote string, delay time.Duration,
 	protocol string, quiet bool) {
 	if localHost != "" {
 		settings.LocalHost = localHost
@@ -19,8 +19,8 @@ func saveSettings(localHost string, localPort int, remoteHost string, delay time
 	if localPort != 0 {
 		settings.LocalPort = localPort
 	}
-	if remoteHost != "" {
-		settings.RemoteHost = remoteHost
+	if remote != "" {
+		settings.Remote = remote
 	}
 	settings.Delay = delay
 	settings.Protocol = protocol
