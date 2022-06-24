@@ -12,7 +12,7 @@ var settings Settings
 
 func main() {
 	var (
-		localPort = flag.Int("p", 0, "Local port to listen on, use 0 for a random one")
+		localPort = flag.Int("p", 0, "Local port to listen on, default to pick a random port")
 		localHost = flag.String("l", "localhost", "Local address to listen on")
 		remote    = flag.String("r", "", "Remote address (host:port) to connect")
 		delay     = flag.Duration("d", 0, "the delay to relay packets")
