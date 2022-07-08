@@ -17,6 +17,7 @@ func main() {
 		remote    = flag.String("r", "", "Remote address (host:port) to connect")
 		delay     = flag.Duration("d", 0, "the delay to relay packets")
 		protocol  = flag.String("t", "", "The type of protocol, currently support grpc")
+		stat      = flag.Bool("s", false, "Enable statistics")
 		quiet     = flag.Bool("q", false,
 			"Quiet mode, only prints connection open/close and stats, default false")
 	)
@@ -27,7 +28,7 @@ func main() {
 	}
 
 	flag.Parse()
-	saveSettings(*localHost, *localPort, *remote, *delay, *protocol, *quiet)
+	saveSettings(*localHost, *localPort, *remote, *delay, *protocol, *stat, *quiet)
 
 	if len(settings.Remote) == 0 {
 		fmt.Fprintln(os.Stderr, color.HiRedString("[x] Remote target required"))

@@ -17,11 +17,12 @@ const (
 	serverSide      = "SERVER"
 	clientSide      = "CLIENT"
 	useOfClosedConn = "use of closed network connection"
+	statInterval    = time.Second * 5
 )
 
 var (
 	errClientCanceled = errors.New("client canceled")
-	stat              = NewStatPrinter(time.Second * 5)
+	stat              Stater
 )
 
 type PairedConnection struct {
@@ -107,6 +108,7 @@ func (c *PairedConnection) stop() {
 }
 
 func startListener() error {
+	stat = NewStatPrinter(statInterval)
 	go stat.Start()
 
 	conn, err := net.Listen("tcp", fmt.Sprintf("%s:%d", settings.LocalHost, settings.LocalPort))

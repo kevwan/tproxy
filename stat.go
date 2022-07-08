@@ -1,5 +1,3 @@
-//go:build !linux
-
 package main
 
 import (
@@ -7,17 +5,23 @@ import (
 	"time"
 )
 
-type StatPrinter struct{}
-
-func NewStatPrinter(_ time.Duration) StatPrinter {
-	return StatPrinter{}
+type Stater interface {
+	AddConn(key string, conn *net.TCPConn)
+	DelConn(key string)
+	Start()
 }
 
-func (p StatPrinter) AddConn(_ string, _ *net.TCPConn) {
+type NilPrinter struct{}
+
+func NewNilPrinter(_ time.Duration) Stater {
+	return NilPrinter{}
 }
 
-func (p StatPrinter) DelConn(_ string) {
+func (p NilPrinter) AddConn(_ string, _ *net.TCPConn) {
 }
 
-func (p StatPrinter) Start() {
+func (p NilPrinter) DelConn(_ string) {
+}
+
+func (p NilPrinter) Start() {
 }

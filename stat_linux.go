@@ -19,7 +19,11 @@ type StatPrinter struct {
 	lock     sync.RWMutex
 }
 
-func NewStatPrinter(duration time.Duration) *StatPrinter {
+func NewStatPrinter(duration time.Duration) Stater {
+	if !settings.Stat {
+		return NilPrinter{}
+	}
+
 	return &StatPrinter{
 		duration: duration,
 		conns:    make(map[string]*net.TCPConn),
