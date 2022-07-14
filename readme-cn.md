@@ -48,6 +48,7 @@ Usage of tproxy:
   -q	Quiet mode, only prints connection open/close and stats, default false
   -r string
     	Remote address (host:port) to connect
+  -s	Enable statistics
   -t string
     	The type of protocol, currently support grpc
 ```
