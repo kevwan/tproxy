@@ -34,6 +34,12 @@ arm64 系统:
 $ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1-arm64 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
 ```
 
+Windows:
+
+```shell
+$ scoop install tproxy
+```
+
 ## 用法
 
 ```shell
