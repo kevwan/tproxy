@@ -41,19 +41,25 @@ func NewPairedConnection(id int, cliConn net.Conn) *PairedConnection {
 	}
 }
 
+func (c *PairedConnection) copyData(dst io.Writer, src io.Reader, tag string) {
+	_, e := io.Copy(dst, src)
+	if e != nil && e != io.EOF {
+		netOpError, ok := e.(*net.OpError)
+		if ok && netOpError.Err.Error() != useOfClosedConn {
+			reason := netOpError.Unwrap().Error()
+			display.PrintlnWithTime(color.HiRedString("[%d] %s error, %s", c.id, tag, reason))
+		}
+	}
+}
+
 func (c *PairedConnection) handleClientMessage() {
 	// client closed also trigger server close.
 	defer c.stop()
 
 	r, w := io.Pipe()
 	tee := io.MultiWriter(c.svrConn, w)
-
 	go protocol.NewDumper(r, clientSide, c.id, settings.Quiet, protocol.CreateInterop(settings.Protocol)).Dump()
-
-	_, e := io.Copy(tee, c.cliConn)
-	if e != nil && e != io.EOF {
-		color.HiRed("handleClientMessage: io.Copy error: %v", e)
-	}
+	c.copyData(tee, c.cliConn, clientSide)
 }
 
 func (c *PairedConnection) handleServerMessage() {
@@ -63,13 +69,7 @@ func (c *PairedConnection) handleServerMessage() {
 	r, w := io.Pipe()
 	tee := io.MultiWriter(newDelayedWriter(c.cliConn, settings.Delay, c.stopChan), w)
 	go protocol.NewDumper(r, serverSide, c.id, settings.Quiet, protocol.CreateInterop(settings.Protocol)).Dump()
-	_, e := io.Copy(tee, c.svrConn)
-	if e != nil && e != io.EOF {
-		netOpError, ok := e.(*net.OpError)
-		if ok && netOpError.Err.Error() != useOfClosedConn {
-			color.HiRed("handleServerMessage: io.Copy error: %v", e)
-		}
-	}
+	c.copyData(tee, c.svrConn, serverSide)
 }
 
 func (c *PairedConnection) process() {
