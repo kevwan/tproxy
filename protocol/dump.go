@@ -5,18 +5,18 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/fatih/color"
 	"github.com/kevwan/tproxy/display"
 )
 
 const (
-	bufferSize   = 1024
+	bufferSize   = 1 << 20
 	grpcProtocol = "grpc"
 )
 
+var defaultDumper Dumper
+
 type Interop interface {
-	Interop(b []byte) (string, bool)
-	Protocol() string
+	Dump(r io.Reader, source string, id int, quiet bool)
 }
 
 func CreateInterop(protocol string) Interop {
@@ -24,45 +24,18 @@ func CreateInterop(protocol string) Interop {
 	case grpcProtocol:
 		return new(GrpcInterop)
 	default:
-		return NilInterop{}
+		return defaultDumper
 	}
 }
 
-type Dumper struct {
-	r       io.Reader
-	source  string
-	id      int
-	quiet   bool
-	interop Interop
-}
+type Dumper struct{}
 
-func NewDumper(r io.Reader, source string, id int, quiet bool, interop Interop) Dumper {
-	return Dumper{
-		r:       r,
-		source:  source,
-		id:      id,
-		quiet:   quiet,
-		interop: interop,
-	}
-}
-
-func (d Dumper) Dump() {
+func (d Dumper) Dump(r io.Reader, source string, id int, quiet bool) {
 	data := make([]byte, bufferSize)
 	for {
-		n, err := d.r.Read(data)
-		if n > 0 && !d.quiet {
-			prot := d.interop.Protocol()
-			frameInfo, ok := d.interop.Interop(data)
-			if ok {
-				display.PrintfWithTime("from %s [%d] %s%s%s:\n",
-					d.source,
-					d.id,
-					color.HiBlueString("%s:(", prot),
-					color.HiYellowString(frameInfo),
-					color.HiBlueString(")"))
-			} else {
-				display.PrintfWithTime("from %s [%d]:\n", d.source, d.id)
-			}
+		n, err := r.Read(data)
+		if n > 0 && !quiet {
+			display.PrintfWithTime("from %s [%d]:\n", source, id)
 			fmt.Println(hex.Dump(data[:n]))
 		}
 		if err != nil && err != io.EOF {
