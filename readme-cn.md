@@ -82,6 +82,14 @@ $ tproxy -p 3307 -r localhost:3306
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/1918356/173970130-944e4265-8ba6-4d2e-b091-1f6a5de81070.png">
 
+### 查看网络状况（重传率和RTT）
+
+```shell
+$ tproxy -p 3307 -r remotehost:3306 -s -q
+```
+
+<img width="548" alt="image" src="https://user-images.githubusercontent.com/1918356/180252614-7cf4d1f9-9ba8-4aa4-a964-6f37cf991749.png">
+
 ## 欢迎 star！⭐
 
 如果你正在使用或者觉得这个项目对你有帮助，请 **star** 支持，感谢！
