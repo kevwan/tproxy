@@ -9,6 +9,9 @@ import (
 )
 
 const (
+	ServerSide = "SERVER"
+	ClientSide = "CLIENT"
+
 	bufferSize   = 1 << 20
 	grpcProtocol = "grpc"
 )

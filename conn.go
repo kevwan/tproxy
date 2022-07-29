@@ -14,8 +14,6 @@ import (
 )
 
 const (
-	serverSide      = "SERVER"
-	clientSide      = "CLIENT"
 	useOfClosedConn = "use of closed network connection"
 	statInterval    = time.Second * 5
 )
@@ -58,8 +56,8 @@ func (c *PairedConnection) handleClientMessage() {
 
 	r, w := io.Pipe()
 	tee := io.MultiWriter(c.svrConn, w)
-	go protocol.CreateInterop(settings.Protocol).Dump(r, clientSide, c.id, settings.Quiet)
-	c.copyData(tee, c.cliConn, clientSide)
+	go protocol.CreateInterop(settings.Protocol).Dump(r, protocol.ClientSide, c.id, settings.Quiet)
+	c.copyData(tee, c.cliConn, protocol.ClientSide)
 }
 
 func (c *PairedConnection) handleServerMessage() {
@@ -68,8 +66,8 @@ func (c *PairedConnection) handleServerMessage() {
 
 	r, w := io.Pipe()
 	tee := io.MultiWriter(newDelayedWriter(c.cliConn, settings.Delay, c.stopChan), w)
-	go protocol.CreateInterop(settings.Protocol).Dump(r, serverSide, c.id, settings.Quiet)
-	c.copyData(tee, c.svrConn, serverSide)
+	go protocol.CreateInterop(settings.Protocol).Dump(r, protocol.ServerSide, c.id, settings.Quiet)
+	c.copyData(tee, c.svrConn, protocol.ServerSide)
 }
 
 func (c *PairedConnection) process() {
