@@ -13,7 +13,7 @@ const (
 	grpcProtocol = "grpc"
 )
 
-var defaultDumper Dumper
+var interop defaultInterop
 
 type Interop interface {
 	Dump(r io.Reader, source string, id int, quiet bool)
@@ -24,13 +24,13 @@ func CreateInterop(protocol string) Interop {
 	case grpcProtocol:
 		return new(GrpcInterop)
 	default:
-		return defaultDumper
+		return interop
 	}
 }
 
-type Dumper struct{}
+type defaultInterop struct{}
 
-func (d Dumper) Dump(r io.Reader, source string, id int, quiet bool) {
+func (d defaultInterop) Dump(r io.Reader, source string, id int, quiet bool) {
 	data := make([]byte, bufferSize)
 	for {
 		n, err := r.Read(data)

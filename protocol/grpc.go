@@ -1,15 +1,15 @@
 package protocol
 
 import (
-	"encoding/binary"
+	"bytes"
 	"encoding/hex"
 	"fmt"
 	"io"
 	"strings"
 
 	"github.com/fatih/color"
-	"github.com/grpc/grpc/tools/http2_interop"
 	"github.com/kevwan/tproxy/display"
+	"golang.org/x/net/http2"
 )
 
 const (
@@ -59,22 +59,35 @@ func (i *GrpcInterop) explain(b []byte) (string, int) {
 		return "", len(b)
 	}
 
-	var frame http2interop.FrameHeader
-	// ignore errors
-	if err := frame.UnmarshalBinary(b[:http2HeaderLen]); err != nil {
+	frame, err := http2.ReadFrameHeader(bytes.NewReader(b[:http2HeaderLen]))
+	if err != nil {
 		return "", len(b)
 	}
 
-	if frame.Type == http2interop.FrameType(priFrameType) {
-		return "http2:pri", len(b)
+	frameLen := http2HeaderLen + int(frame.Length)
+	switch frame.Type {
+	case priFrameType:
+		return "http2:preface", frameLen
+	case http2.FrameSettings:
+		switch frame.Flags {
+		case http2.FlagSettingsAck:
+			return "http2:settings:ack", frameLen
+		default:
+			return "http2:settings", frameLen
+		}
+	case http2.FramePing:
+		switch frame.Flags {
+		case http2.FlagPingAck:
+			return "http2:ping:ack", frameLen
+		default:
+			return "http2:ping", frameLen
+		}
 	}
 
-	payloadLen := binary.BigEndian.Uint32(append([]byte{0}, b[:3]...))
-	id := binary.BigEndian.Uint32(b[5:http2HeaderLen]) & 0x7fffffff
-	if id > 0 {
-		return fmt.Sprintf("http2:%s stream:%d", strings.ToLower(frame.Type.String()), id),
-			http2HeaderLen + int(payloadLen)
+	if frame.StreamID > 0 {
+		desc := fmt.Sprintf("http2:%s stream:%d", strings.ToLower(frame.Type.String()), frame.StreamID)
+		return desc, frameLen
 	}
 
-	return "http2:" + strings.ToLower(frame.Type.String()), http2HeaderLen + int(payloadLen)
+	return "http2:" + strings.ToLower(frame.Type.String()), frameLen
 }
