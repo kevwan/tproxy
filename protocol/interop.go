@@ -12,8 +12,9 @@ const (
 	ServerSide = "SERVER"
 	ClientSide = "CLIENT"
 
-	bufferSize   = 1 << 20
-	grpcProtocol = "grpc"
+	bufferSize    = 1 << 20
+	grpcProtocol  = "grpc"
+	http2Protocol = "http2"
 )
 
 var interop defaultInterop
@@ -25,7 +26,11 @@ type Interop interface {
 func CreateInterop(protocol string) Interop {
 	switch protocol {
 	case grpcProtocol:
-		return new(GrpcInterop)
+		return &http2Interop{
+			explainer: new(grpcExplainer),
+		}
+	case http2Protocol:
+		return new(http2Interop)
 	default:
 		return interop
 	}

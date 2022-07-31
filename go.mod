@@ -6,6 +6,7 @@ require (
 	github.com/fatih/color v1.13.0
 	github.com/olekukonko/tablewriter v0.0.5
 	golang.org/x/net v0.0.0-20220728211354-c7608f3a8462
+	google.golang.org/protobuf v1.28.1
 )
 
 require (
