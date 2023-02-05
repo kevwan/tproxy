@@ -15,6 +15,8 @@ const (
 	bufferSize    = 1 << 20
 	grpcProtocol  = "grpc"
 	http2Protocol = "http2"
+	redisProtocol = "redis"
+	mongoProtocol = "mongo"
 )
 
 var interop defaultInterop
@@ -31,6 +33,10 @@ func CreateInterop(protocol string) Interop {
 		}
 	case http2Protocol:
 		return new(http2Interop)
+	case redisProtocol:
+		return new(redisInterop)
+	case mongoProtocol:
+		return new(mongoInterop)
 	default:
 		return interop
 	}
