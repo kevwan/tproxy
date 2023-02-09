@@ -82,16 +82,21 @@ func (i *http2Interop) explain(b []byte) (string, string, int) {
 	}
 
 	frameLen := http2HeaderLen + int(frame.Length)
+	maxOffset := frameLen
+	if maxOffset > len(b) {
+		maxOffset = len(b)
+	}
+
 	switch frame.Type {
 	case http2.FrameSettings:
 		switch frame.Flags {
 		case http2.FlagSettingsAck:
 			return "http2:settings:ack", "", frameLen
 		default:
-			return i.explainSettings(b[http2HeaderLen:frameLen]), "", frameLen
+			return i.explainSettings(b[http2HeaderLen:maxOffset]), "", frameLen
 		}
 	case http2.FramePing:
-		id := hex.EncodeToString(b[http2HeaderLen:frameLen])
+		id := hex.EncodeToString(b[http2HeaderLen:maxOffset])
 		switch frame.Flags {
 		case http2.FlagPingAck:
 			return fmt.Sprintf("http2:ping:ack %s", id), "", frameLen
@@ -102,7 +107,7 @@ func (i *http2Interop) explain(b []byte) (string, string, int) {
 		increment := binary.BigEndian.Uint32(b[http2HeaderLen : http2HeaderLen+4])
 		return fmt.Sprintf("http2:window_update window_size_increment:%d", increment), "", frameLen
 	case http2.FrameHeaders:
-		info, headers := i.explainHeaders(frame, b[http2HeaderLen:frameLen])
+		info, headers := i.explainHeaders(frame, b[http2HeaderLen:maxOffset])
 		var builder strings.Builder
 		for _, header := range headers {
 			builder.WriteString(fmt.Sprintf("%s: %s\n", header.Name, header.Value))
@@ -112,7 +117,7 @@ func (i *http2Interop) explain(b []byte) (string, string, int) {
 		if frame.Flags == http2.FlagDataEndStream {
 			var info string
 			if i.explainer != nil {
-				info = i.explainer.explain(b[http2HeaderLen:frameLen])
+				info = i.explainer.explain(b[http2HeaderLen:maxOffset])
 			}
 			return fmt.Sprintf("http2:%s stream:%d len:%d end_stream",
 				strings.ToLower(frame.Type.String()), frame.StreamID, frame.Length), info, frameLen
