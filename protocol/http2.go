@@ -132,10 +132,6 @@ func (i *http2Interop) explain(b []byte) (string, string, int) {
 	return "http2:" + strings.ToLower(frame.Type.String()), "", frameLen
 }
 
-func (i *http2Interop) explainData(b []byte) string {
-	return "http2:data"
-}
-
 func (i *http2Interop) explainHeaders(frame http2.FrameHeader, b []byte) (string, []hpack.HeaderField) {
 	var padded int
 	var weight int
