@@ -12,35 +12,23 @@ type redisInterop struct {
 }
 
 func (red *redisInterop) Dump(r io.Reader, source string, id int, quiet bool) {
+	// only parse client send command
 	buf := bufio.NewReader(r)
-	var cmd string
-	var cmdCount = 0
-
 	for {
+		// read raw data
 		line, _, _ := buf.ReadLine()
-		if len(line) == 0 {
-			buff := make([]byte, 1)
-			r.Read(buff)
-			continue
-		}
-
-		// Filtering useless data
-		if !strings.HasPrefix(string(line), "*") {
-			continue
-		}
-
-		// run
-		l := string(line[1])
-		cmdCount, _ = strconv.Atoi(l)
-		cmd = ""
-		for j := 0; j < cmdCount*2; j++ {
-			c, _, _ := buf.ReadLine()
-			if j&1 == 0 {
-				continue
+		lineStr := string(line)
+		if source != "SERVER" && strings.HasPrefix(lineStr, "*") {
+			cmdCount, _ := strconv.Atoi(strings.TrimLeft(lineStr, "*"))
+			var sb strings.Builder
+			for j := 0; j < cmdCount*2; j++ {
+				c, _, _ := buf.ReadLine()
+				if j&1 == 0 { // skip param length
+					continue
+				}
+				sb.WriteString(" " + string(c))
 			}
-			cmd += " " + string(c)
+			display.PrintlnWithTime(strings.TrimSpace(sb.String()))
 		}
-
-		display.PrintlnWithTime(strings.TrimSpace(cmd))
 	}
 }
