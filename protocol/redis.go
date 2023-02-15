@@ -2,10 +2,11 @@ package protocol
 
 import (
 	"bufio"
-	"github.com/kevwan/tproxy/display"
 	"io"
 	"strconv"
 	"strings"
+
+	"github.com/kevwan/tproxy/display"
 )
 
 type redisInterop struct {
