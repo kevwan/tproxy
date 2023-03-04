@@ -56,7 +56,7 @@ Usage of tproxy:
     	Remote address (host:port) to connect
   -s	Enable statistics
   -t string
-    	The type of protocol, currently support grpc
+    	The type of protocol, currently support http2, grpc, redis and mongodb
 ```
 
 ## Examples
