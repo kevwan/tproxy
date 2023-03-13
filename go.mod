@@ -3,7 +3,7 @@ module github.com/kevwan/tproxy
 go 1.18
 
 require (
-	github.com/fatih/color v1.14.1
+	github.com/fatih/color v1.15.0
 	github.com/mongodb/mongo-go-driver v1.2.1
 	github.com/olekukonko/tablewriter v0.0.5
 	golang.org/x/net v0.8.0
