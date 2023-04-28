@@ -9,7 +9,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/kevwan/tproxy/display"
-	"github.com/mongodb/mongo-go-driver/bson"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 const (
