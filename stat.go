@@ -31,21 +31,18 @@ func NewStater(staters ...Stater) Stater {
 		c := make(chan os.Signal, 1)
 		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
-		for {
-			select {
-			case sig := <-c:
-				signal.Stop(c)
-				stat.Stop()
+		for sig := range c {
+			signal.Stop(c)
+			stat.Stop()
 
-				p, err := os.FindProcess(syscall.Getpid())
-				if err != nil {
-					fmt.Println(err)
-					os.Exit(0)
-				}
+			p, err := os.FindProcess(syscall.Getpid())
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(0)
+			}
 
-				if err := p.Signal(sig); err != nil {
-					fmt.Println(err)
-				}
+			if err := p.Signal(sig); err != nil {
+				fmt.Println(err)
 			}
 		}
 	}()
