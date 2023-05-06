@@ -90,6 +90,14 @@ $ tproxy -p 3307 -r remotehost:3306 -s -q
 
 <img width="548" alt="image" src="https://user-images.githubusercontent.com/1918356/180252614-7cf4d1f9-9ba8-4aa4-a964-6f37cf991749.png">
 
+### 查看连接池（总连接数、最大并发连接数、最长生命周期等）
+
+```shell
+$ tproxy -p 3307 -r :3306 -s -q
+```
+
+<img width="404" alt="image" src="https://user-images.githubusercontent.com/1918356/236633144-9136e415-5763-4051-8c59-78ac363229ac.png">
+
 ## 欢迎 star！⭐
 
 如果你正在使用或者觉得这个项目对你有帮助，请 **star** 支持，感谢！
