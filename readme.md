@@ -90,6 +90,14 @@ $ tproxy -p 3307 -r remotehost:3306 -s -q
 
 <img width="548" alt="image" src="https://user-images.githubusercontent.com/1918356/180252614-7cf4d1f9-9ba8-4aa4-a964-6f37cf991749.png">
 
+### Learn the connection pool behaviors
+
+```shell
+$ tproxy -p 3307 -r localhost:3306 -q -s
+```
+
+<img width="395" alt="image" src="https://user-images.githubusercontent.com/1918356/236633045-588705af-cd19-4a1b-9329-3af37f9700de.png">
+
 ## Give a Star! ⭐
 
 If you like or are using this project, please give it a **star**. Thanks!
