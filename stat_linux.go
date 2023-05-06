@@ -51,6 +51,10 @@ func (p *StatPrinter) Start() {
 	}
 }
 
+func (p *StatPrinter) Stop() {
+	p.print()
+}
+
 func (p *StatPrinter) buildRows() [][]string {
 	var keys []string
 	infos := make(map[string]*TcpInfo)

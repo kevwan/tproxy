@@ -21,3 +21,6 @@ func (p StatPrinter) DelConn(_ string) {
 
 func (p StatPrinter) Start() {
 }
+
+func (p StatPrinter) Stop() {
+}

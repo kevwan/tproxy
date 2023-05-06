@@ -106,7 +106,7 @@ func (c *PairedConnection) stop() {
 }
 
 func startListener() error {
-	stat = NewStatPrinter(statInterval)
+	stat = NewStater(NewConnCounter(), NewStatPrinter(statInterval))
 	go stat.Start()
 
 	conn, err := net.Listen("tcp", fmt.Sprintf("%s:%d", settings.LocalHost, settings.LocalPort))
