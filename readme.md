@@ -88,7 +88,7 @@ $ tproxy -p 3307 -r localhost:3306
 $ tproxy -p 3307 -r remotehost:3306 -s -q
 ```
 
-<img width="548" alt="image" src="https://user-images.githubusercontent.com/1918356/180252614-7cf4d1f9-9ba8-4aa4-a964-6f37cf991749.png">
+<img width="404" alt="image" src="https://user-images.githubusercontent.com/1918356/236633144-9136e415-5763-4051-8c59-78ac363229ac.png">
 
 ### Learn the connection pool behaviors
 
