@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/fatih/color v1.15.0
 	github.com/olekukonko/tablewriter v0.0.5
-	go.mongodb.org/mongo-driver v1.11.7
+	go.mongodb.org/mongo-driver v1.12.0
 	golang.org/x/net v0.12.0
 	google.golang.org/protobuf v1.31.0
 )
