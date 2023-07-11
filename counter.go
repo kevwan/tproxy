@@ -25,7 +25,7 @@ func NewConnCounter() Stater {
 	}
 }
 
-func (c *connCounter) AddConn(key string, conn *net.TCPConn) {
+func (c *connCounter) AddConn(key string, _ *net.TCPConn) {
 	atomic.AddInt64(&c.total, 1)
 	val := atomic.AddInt64(&c.concurrent, 1)
 	max := atomic.LoadInt64(&c.max)
@@ -57,8 +57,18 @@ func (c *connCounter) Start() {
 }
 
 func (c *connCounter) Stop() {
+	c.lock.Lock()
+	for _, start := range c.conns {
+		lifetime := time.Since(start)
+		if lifetime > c.maxLifetime {
+			c.maxLifetime = lifetime
+		}
+	}
+	defer c.lock.Unlock()
+
 	fmt.Println()
-	color.HiWhite("Total connections: %d", atomic.LoadInt64(&c.total))
-	color.HiWhite("Max concurrent connections: %d", atomic.LoadInt64(&c.max))
-	color.HiWhite("Max connection lifetime: %s", c.maxLifetime)
+	color.HiWhite("Connection stats (client -> tproxy -> server):")
+	color.HiWhite("  Total connections: %d", atomic.LoadInt64(&c.total))
+	color.HiWhite("  Max concurrent connections: %d", atomic.LoadInt64(&c.max))
+	color.HiWhite("  Max connection lifetime: %s", c.maxLifetime)
 }
