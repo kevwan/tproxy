@@ -20,6 +20,8 @@ func main() {
 		stat      = flag.Bool("s", false, "Enable statistics")
 		quiet     = flag.Bool("q", false,
 			"Quiet mode, only prints connection open/close and stats, default false")
+		upLimit   = flag.Int64("U", 0, "Upward speed limit(Bytes/second)")
+		downLimit = flag.Int64("D", 0, "Downward speed limit(Bytes/second)")
 	)
 
 	if len(os.Args) <= 1 {
@@ -28,7 +30,7 @@ func main() {
 	}
 
 	flag.Parse()
-	saveSettings(*localHost, *localPort, *remote, *delay, *protocol, *stat, *quiet)
+	saveSettings(*localHost, *localPort, *remote, *delay, *protocol, *stat, *quiet, *upLimit, *downLimit)
 
 	if len(settings.Remote) == 0 {
 		fmt.Fprintln(os.Stderr, color.HiRedString("[x] Remote target required"))

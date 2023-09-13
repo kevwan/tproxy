@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/fatih/color"
+	"github.com/juju/ratelimit"
 	"github.com/kevwan/tproxy/display"
 	"github.com/kevwan/tproxy/protocol"
 )
@@ -58,7 +59,12 @@ func (c *PairedConnection) handleClientMessage() {
 	r, w := io.Pipe()
 	tee := io.MultiWriter(c.svrConn, w)
 	go protocol.CreateInterop(settings.Protocol).Dump(r, protocol.ClientSide, c.id, settings.Quiet)
-	c.copyData(tee, c.cliConn, protocol.ClientSide)
+	var src io.Reader = c.cliConn
+	if settings.UpLimit > 0 {
+		bucket := ratelimit.NewBucket(time.Second, settings.UpLimit)
+		src = ratelimit.Reader(src, bucket)
+	}
+	c.copyData(tee, src, protocol.ClientSide)
 }
 
 func (c *PairedConnection) handleServerMessage() {
@@ -68,7 +74,12 @@ func (c *PairedConnection) handleServerMessage() {
 	r, w := io.Pipe()
 	tee := io.MultiWriter(newDelayedWriter(c.cliConn, settings.Delay, c.stopChan), w)
 	go protocol.CreateInterop(settings.Protocol).Dump(r, protocol.ServerSide, c.id, settings.Quiet)
-	c.copyData(tee, c.svrConn, protocol.ServerSide)
+	var src io.Reader = c.svrConn
+	if settings.DownLimit > 0 {
+		bucket := ratelimit.NewBucket(time.Second, settings.DownLimit)
+		src = ratelimit.Reader(src, bucket)
+	}
+	c.copyData(tee, src, protocol.ServerSide)
 }
 
 func (c *PairedConnection) process() {
