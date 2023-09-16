@@ -18,10 +18,9 @@ func main() {
 		delay     = flag.Duration("d", 0, "the delay to relay packets")
 		protocol  = flag.String("t", "", "The type of protocol, currently support http2, grpc, redis and mongodb")
 		stat      = flag.Bool("s", false, "Enable statistics")
-		quiet     = flag.Bool("q", false,
-			"Quiet mode, only prints connection open/close and stats, default false")
-		upLimit   = flag.Int64("U", 0, "Upward speed limit(Bytes/second)")
-		downLimit = flag.Int64("D", 0, "Downward speed limit(Bytes/second)")
+		quiet     = flag.Bool("q", false, "Quiet mode, only prints connection open/close and stats, default false")
+		upLimit   = flag.Int64("up", 0, "Upward speed limit(bytes/second)")
+		downLimit = flag.Int64("down", 0, "Downward speed limit(bytes/second)")
 	)
 
 	if len(os.Args) <= 1 {
