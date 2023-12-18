@@ -16,7 +16,7 @@ func main() {
 		localHost = flag.String("l", "localhost", "Local address to listen on")
 		remote    = flag.String("r", "", "Remote address (host:port) to connect")
 		delay     = flag.Duration("d", 0, "the delay to relay packets")
-		protocol  = flag.String("t", "", "The type of protocol, currently support http2, grpc, redis and mongodb")
+		protocol  = flag.String("t", "", "The type of protocol, currently support http2, grpc, redis, mongodb and mqtt")
 		stat      = flag.Bool("s", false, "Enable statistics")
 		quiet     = flag.Bool("q", false, "Quiet mode, only prints connection open/close and stats, default false")
 		upLimit   = flag.Int64("up", 0, "Upward speed limit(bytes/second)")
