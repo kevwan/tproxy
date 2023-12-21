@@ -15,7 +15,8 @@ func (red *mqttInterop) Dump(r io.Reader, source string, id int, quiet bool) {
 		readPacket, err := packets.ReadPacket(r)
 		if err != nil && err == io.EOF {
 			continue
-		} else if err != nil {
+		}
+		if err != nil {
 			display.PrintfWithTime("[%s-%d] read packet has err: %+v, stop!!!\n", source, id, err)
 			return
 		}
@@ -23,6 +24,5 @@ func (red *mqttInterop) Dump(r io.Reader, source string, id int, quiet bool) {
 			display.PrintfWithTime("[%s-%d] %s\n", source, id, readPacket.String())
 			continue
 		}
-
 	}
 }
