@@ -43,7 +43,7 @@ func NewPairedConnection(id int, cliConn net.Conn) *PairedConnection {
 
 func (c *PairedConnection) copyData(dst io.Writer, src io.Reader, tag string) {
 	_, e := io.Copy(dst, src)
-	if e != nil && e != io.EOF {
+	if e != nil {
 		netOpError, ok := e.(*net.OpError)
 		if ok && netOpError.Err.Error() != useOfClosedConn {
 			reason := netOpError.Unwrap().Error()
