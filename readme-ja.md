@@ -1,6 +1,6 @@
 # tproxy
 
-English | [简体中文](readme-cn.md) | [日本語](readme-ja.md)
+[English](readme.md) | [简体中文](readme-cn.md) | 日本語
 
 [![Go](https://github.com/kevwan/tproxy/workflows/Go/badge.svg?branch=main)](https://github.com/kevwan/tproxy/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/kevwan/tproxy)](https://goreportcard.com/report/github.com/kevwan/tproxy)
@@ -9,76 +9,76 @@ English | [简体中文](readme-cn.md) | [日本語](readme-ja.md)
 
 <a href="https://www.buymeacoffee.com/kevwan" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
-## Why I wrote this tool
+## なぜこのツールを書いたのか
 
-When I develop backend services and write [go-zero](https://github.com/zeromicro/go-zero), I often need to monitor the network traffic. For example:
-1. monitoring gRPC connections, when to connect and when to reconnect
-2. monitoring MySQL connection pools, how many connections and figure out the lifetime policy
-3. monitoring any TCP connections on the fly
+バックエンドサービスを開発し、[go-zero](https://github.com/zeromicro/go-zero)を書くとき、ネットワークトラフィックを監視する必要がよくあります。例えば：
+1. gRPC接続の監視、接続のタイミングと再接続のタイミング
+2. MySQL接続プールの監視、接続数とライフタイムポリシーの把握
+3. 任意のTCP接続のリアルタイム監視
 
-## Installation
+## インストール
 
 ```shell
 $ go install github.com/kevwan/tproxy@latest
 ```
 
-Or use docker images:
+または、dockerイメージを使用します：
 
 ```shell
 $ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
 ```
 
-For arm64:
+arm64の場合：
 
 ```shell
 $ docker run --rm -it -p <listen-port>:<listen-port> -p <remote-port>:<remote-port> kevinwan/tproxy:v1-arm64 tproxy -l 0.0.0.0 -p <listen-port> -r host.docker.internal:<remote-port>
 ```
 
-On Windows, you can use [scoop](https://scoop.sh/):
+Windowsの場合、[scoop](https://scoop.sh/)を使用できます：
 
 ```shell
 $ scoop install tproxy
 ```
 
-## Usages
+## 使用方法
 
 ```shell
 $ tproxy --help
 Usage of tproxy:
   -d duration
-    	the delay to relay packets
+    	パケットを中継する遅延時間
   -down int
-    	Downward speed limit(bytes/second)
+    	下り速度制限（バイト/秒）
   -l string
-    	Local address to listen on (default "localhost")
+    	リッスンするローカルアドレス（デフォルトは "localhost"）
   -p int
-    	Local port to listen on, default to pick a random port
-  -q	Quiet mode, only prints connection open/close and stats, default false
+    	リッスンするローカルポート、デフォルトはランダムポート
+  -q	静音モード、接続の開閉と統計のみを表示、デフォルトはfalse
   -r string
-    	Remote address (host:port) to connect
-  -s	Enable statistics
+    	接続するリモートアドレス（ホスト：ポート）
+  -s	統計を有効にする
   -t string
-    	The type of protocol, currently support http2, grpc, redis and mongodb
+    	プロトコルの種類、現在サポートされているのはhttp2、grpc、redis、mongodb
   -up int
-    	Upward speed limit(bytes/second)
+    	上り速度制限（バイト/秒）
 ```
 
-## Examples
+## 例
 
-### Monitor gRPC connections
+### gRPC接続の監視
 
 ```shell
 $ tproxy -p 8088 -r localhost:8081 -t grpc -d 100ms
 ```
 
-- listen on localhost and port 8088
-- redirect the traffic to `localhost:8081`
-- protocol type to be gRPC
-- delay 100ms for each packets
+- localhostとポート8088でリッスン
+- トラフィックを`localhost:8081`にリダイレクト
+- プロトコルタイプをgRPCに設定
+- 各パケットの遅延時間を100msに設定
 
 <img width="579" alt="image" src="https://user-images.githubusercontent.com/1918356/181794530-5b25f75f-0c1a-4477-8021-56946903830a.png">
 
-### Monitor MySQL connections
+### MySQL接続の監視
 
 ```shell
 $ tproxy -p 3307 -r localhost:3306
@@ -86,7 +86,7 @@ $ tproxy -p 3307 -r localhost:3306
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/1918356/173970130-944e4265-8ba6-4d2e-b091-1f6a5de81070.png">
 
-### Check the connection reliability (Retrans rate and RTT)
+### 接続の信頼性の確認（再送率とRTT）
 
 ```shell
 $ tproxy -p 3307 -r remotehost:3306 -s -q
@@ -94,7 +94,7 @@ $ tproxy -p 3307 -r remotehost:3306 -s -q
 
 <img width="548" alt="image" src="https://user-images.githubusercontent.com/1918356/180252614-7cf4d1f9-9ba8-4aa4-a964-6f37cf991749.png">
 
-### Learn the connection pool behaviors
+### 接続プールの動作を学ぶ
 
 ```shell
 $ tproxy -p 3307 -r localhost:3306 -q -s
@@ -102,6 +102,6 @@ $ tproxy -p 3307 -r localhost:3306 -q -s
 
 <img width="404" alt="image" src="https://user-images.githubusercontent.com/1918356/236633144-9136e415-5763-4051-8c59-78ac363229ac.png">
 
-## Give a Star! ⭐
+## スターを付けてください！ ⭐
 
-If you like or are using this project, please give it a **star**. Thanks!
+このプロジェクトが気に入ったり、使用している場合は、**スター**を付けてください。ありがとうございます！
