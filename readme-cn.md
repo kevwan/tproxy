@@ -1,6 +1,6 @@
 # tproxy
 
-[English](readme.md) | 简体中文
+[English](readme.md) | 简体中文 | [日本語](readme-ja.md)
 
 [![Go](https://github.com/kevwan/tproxy/workflows/Go/badge.svg?branch=main)](https://github.com/kevwan/tproxy/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/kevwan/tproxy)](https://goreportcard.com/report/github.com/kevwan/tproxy)
