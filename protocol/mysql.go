@@ -133,7 +133,6 @@ func (mysql *mysqlInterop) Dump(r io.Reader, source string, id int, quiet bool) 
 			if source == "CLIENT" {
 				mysql.dumpClient(r, id, quiet, data)
 			} else {
-				continue
 				mysql.dumpServer(r, id, quiet, data)
 			}
 		}
