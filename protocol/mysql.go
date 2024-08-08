@@ -55,7 +55,10 @@ type ServerResponse struct {
 
 func (mysql *mysqlInterop) dumpClient(r io.Reader, id int, quiet bool, data []byte) {
 	// parse packet length
-	var packetLength uint32
+	var (
+		packetLength uint32
+		sequenceId   uint32
+	)
 	reader := bytes.NewReader(data[:4])
 	err := binary.Read(reader, binary.BigEndian, &packetLength)
 	if err != nil {
@@ -68,7 +71,11 @@ func (mysql *mysqlInterop) dumpClient(r io.Reader, id int, quiet bool, data []by
 	commandName := comTypeMap[commandType]
 
 	// parse sequence id
-	sequenceId := data[5]
+	if len(data) < 6 {
+		sequenceId = 0
+	} else {
+		sequenceId = uint32(data[5])
+	}
 
 	// parse query
 	var query []byte
@@ -132,8 +139,6 @@ func (mysql *mysqlInterop) Dump(r io.Reader, source string, id int, quiet bool) 
 
 			if source == "CLIENT" {
 				mysql.dumpClient(r, id, quiet, data)
-			} else {
-				mysql.dumpServer(r, id, quiet, data)
 			}
 		}
 	}
