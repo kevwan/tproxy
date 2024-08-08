@@ -18,6 +18,7 @@ const (
 	redisProtocol = "redis"
 	mongoProtocol = "mongo"
 	mqttProtocol  = "mqtt"
+	mysqlProtocol = "mysql"
 )
 
 var interop defaultInterop
@@ -40,6 +41,8 @@ func CreateInterop(protocol string) Interop {
 		return new(mongoInterop)
 	case mqttProtocol:
 		return new(mqttInterop)
+	case mysqlProtocol:
+		return new(mysqlInterop)
 	default:
 		return interop
 	}
