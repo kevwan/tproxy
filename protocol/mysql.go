@@ -3,7 +3,6 @@ package protocol
 import (
 	"bytes"
 	"encoding/binary"
-	"encoding/hex"
 	"fmt"
 	"io"
 	"unicode/utf8"
@@ -79,7 +78,7 @@ func (mysql *mysqlInterop) dumpClient(r io.Reader, id int, quiet bool, data []by
 
 	// parse query
 	var query []byte
-	for i := 6; i < len(data); i++ {
+	for i := 5; i < len(data); i++ {
 		if data[i] == 0 {
 			break
 		}
@@ -90,38 +89,6 @@ func (mysql *mysqlInterop) dumpClient(r io.Reader, id int, quiet bool, data []by
 		display.PrintlnWithTime(fmt.Sprintf("[Client] %d-%s: %s", sequenceId, commandName, string(query)))
 	} else {
 		display.PrintlnWithTime(color.HiRedString("Invalid Query %v", query))
-	}
-}
-
-func (mysql *mysqlInterop) dumpServer(r io.Reader, id int, quiet bool, data []byte) {
-	header := make([]byte, 4)
-	_, err := r.Read(header)
-	if err != nil {
-		display.PrintlnWithTime(color.HiRedString("Error reading packet length: %v\n", err))
-		return
-	}
-
-	packetLength := int(binary.BigEndian.Uint16(header[:3]))
-	responseData := make([]byte, packetLength)
-	_, err = r.Read(responseData)
-	if err != nil {
-		display.PrintlnWithTime(color.HiRedString("Error reading packet data: %v\n", err))
-		return
-	}
-
-	// OK packet, value is 0x00
-	// Error packet, value is 0xFF
-	responseType := data[0]
-	if responseType == 0x00 {
-		fmt.Println("OK packet", hex.Dump(responseData))
-	} else if responseType == 0xff {
-		fmt.Println("Error packet", hex.Dump(responseData))
-	} else if responseType == 0xfe {
-		fmt.Println("EOF packet", hex.Dump(responseData))
-	} else if responseType > 0x00 && responseType < 0xfa {
-		fmt.Println("other packet", hex.Dump(responseData))
-	} else {
-		display.PrintlnWithTime(color.HiRedString("invalid packet"))
 	}
 }
 
@@ -136,7 +103,6 @@ func (mysql *mysqlInterop) Dump(r io.Reader, source string, id int, quiet bool) 
 
 		if n > 0 && !quiet {
 			data := buffer[:n]
-
 			if source == "CLIENT" {
 				mysql.dumpClient(r, id, quiet, data)
 			}
