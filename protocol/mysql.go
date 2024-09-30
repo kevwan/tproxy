@@ -146,8 +146,8 @@ func processOkResponse(sequenceId byte, payload []byte) {
 	remaining = remaining[2:]
 
 	display.PrintlnWithTime(
-		fmt.Sprintf("[Server -> Client] %d-%s: affectRows: %d, lastInsertID: %d, warningsCount: %d, status: %s",
-			sequenceId, MySQLResponseTypeOK, affectedRows, lastInsertID, warningsCount, statusFlag))
+		fmt.Sprintf("[Server -> Client] %d-%s: affectRows: %d, lastInsertID: %d, warningsCount: %d, status: %s, data: %s",
+			sequenceId, MySQLResponseTypeOK, affectedRows, lastInsertID, warningsCount, statusFlag, remaining))
 }
 
 var sqlStateDescriptions = map[string]string{
