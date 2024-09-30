@@ -175,7 +175,8 @@ func processErrorResponse(sequenceId byte, payload []byte) {
 }
 
 func processResultSetResponse(sequenceId byte, payload []byte) {
-	display.PrintlnWithTime(fmt.Sprintf("[Server -> Client] %d-%s:\n%s", sequenceId, MySQLResponseTypeResultSet, string(payload)))
+	display.PrintfWithTime(fmt.Sprintf("[Server -> Client] %d-%s: \n %s", sequenceId, MySQLResponseTypeResultSet, hexDump(payload)))
+
 }
 
 func insertSpace(hexStr string) string {
@@ -204,9 +205,10 @@ func toPrintableASCII(data []byte) string {
 	}
 	return result.String()
 }
+
 func hexDump(data []byte) string {
 	var result strings.Builder
-	chunkSize := 16
+	const chunkSize = 16
 
 	for i := 0; i < len(data); i += chunkSize {
 		end := i + chunkSize
