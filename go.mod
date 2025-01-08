@@ -7,7 +7,7 @@ require (
 	github.com/fatih/color v1.18.0
 	github.com/juju/ratelimit v1.0.2
 	github.com/olekukonko/tablewriter v0.0.5
-	go.mongodb.org/mongo-driver v1.17.1
+	go.mongodb.org/mongo-driver v1.17.2
 	golang.org/x/net v0.33.0
 	google.golang.org/protobuf v1.36.2
 )
