@@ -8,7 +8,7 @@ require (
 	github.com/juju/ratelimit v1.0.2
 	github.com/olekukonko/tablewriter v0.0.5
 	go.mongodb.org/mongo-driver v1.17.2
-	golang.org/x/net v0.33.0
+	golang.org/x/net v0.34.0
 	google.golang.org/protobuf v1.36.2
 )
 
@@ -17,7 +17,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
