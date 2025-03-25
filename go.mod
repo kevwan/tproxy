@@ -1,6 +1,7 @@
 module github.com/kevwan/tproxy
 
 go 1.18
+toolchain go1.24.1
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.5.0
@@ -9,7 +10,7 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5
 	go.mongodb.org/mongo-driver v1.17.3
 	golang.org/x/net v0.37.0
-	google.golang.org/protobuf v1.36.5
+	google.golang.org/protobuf v1.36.6
 )
 
 require (
