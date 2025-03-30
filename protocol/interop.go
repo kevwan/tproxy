@@ -19,6 +19,7 @@ const (
 	mongoProtocol = "mongo"
 	mqttProtocol  = "mqtt"
 	mysqlProtocol = "mysql"
+	textProtocol  = "text"
 )
 
 var interop defaultInterop
@@ -29,6 +30,8 @@ type Interop interface {
 
 func CreateInterop(protocol string) Interop {
 	switch protocol {
+	case textProtocol:
+		return new(textInterop)
 	case grpcProtocol:
 		return &http2Interop{
 			explainer: new(grpcExplainer),
