@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 )
 
 type (
@@ -75,10 +74,6 @@ func (c compositeStater) Stop() {
 }
 
 type NilPrinter struct{}
-
-func NewNilPrinter(_ time.Duration) Stater {
-	return NilPrinter{}
-}
 
 func (p NilPrinter) AddConn(_ string, _ *net.TCPConn) {
 }
