@@ -103,9 +103,8 @@ func (p *StatPrinter) print() {
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Timestamp", "Connection", "RetransRate(%)", "RTT(ms)", "RTT/Variance(ms)"})
-	table.SetBorder(false)
-	table.AppendBulk(rows)
+	table.Header([]string{"Timestamp", "Connection", "RetransRate(%)", "RTT(ms)", "RTT/Variance(ms)"})
+	table.Bulk(rows)
 	table.Render()
 	fmt.Println()
 }
