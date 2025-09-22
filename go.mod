@@ -6,7 +6,7 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.5.0
 	github.com/fatih/color v1.18.0
 	github.com/juju/ratelimit v1.0.2
-	github.com/olekukonko/tablewriter v1.0.9
+	github.com/olekukonko/tablewriter v1.1.0
 	go.mongodb.org/mongo-driver v1.17.4
 	golang.org/x/net v0.42.0
 	google.golang.org/protobuf v1.36.6
