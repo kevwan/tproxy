@@ -9,7 +9,7 @@ require (
 	github.com/olekukonko/tablewriter v1.1.0
 	go.mongodb.org/mongo-driver v1.17.4
 	golang.org/x/net v0.44.0
-	google.golang.org/protobuf v1.36.6
+	google.golang.org/protobuf v1.36.10
 )
 
 require (
