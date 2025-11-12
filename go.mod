@@ -8,7 +8,7 @@ require (
 	github.com/juju/ratelimit v1.0.2
 	github.com/olekukonko/tablewriter v1.1.1
 	go.mongodb.org/mongo-driver v1.17.4
-	golang.org/x/net v0.46.0
+	golang.org/x/net v0.47.0
 	google.golang.org/protobuf v1.36.10
 )
 
@@ -22,7 +22,7 @@ require (
 	github.com/olekukonko/cat v0.0.0-20250911104152-50322a0618f6 // indirect
 	github.com/olekukonko/errors v1.1.0 // indirect
 	github.com/olekukonko/ll v0.1.2 // indirect
-	golang.org/x/sys v0.37.0 // indirect
-	golang.org/x/text v0.30.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
