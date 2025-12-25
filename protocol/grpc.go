@@ -8,6 +8,8 @@ import (
 	"google.golang.org/protobuf/encoding/protowire"
 )
 
+const grpcHeaderLen = 5
+
 type grpcExplainer struct{}
 
 func (g *grpcExplainer) explain(b []byte) string {

@@ -35,9 +35,12 @@ func CreateInterop(protocol string) Interop {
 	case grpcProtocol:
 		return &http2Interop{
 			explainer: new(grpcExplainer),
+			protocol:  grpcProtocol,
 		}
 	case http2Protocol:
-		return new(http2Interop)
+		return &http2Interop{
+			protocol: http2Protocol,
+		}
 	case redisProtocol:
 		return new(redisInterop)
 	case mongoProtocol:

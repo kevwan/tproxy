@@ -18,7 +18,6 @@ const (
 	http2HeaderLen          = 9
 	http2Preface            = "PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n"
 	http2SettingsPayloadLen = 6
-	grpcHeaderLen           = 5
 )
 
 type (
@@ -28,6 +27,7 @@ type (
 
 	http2Interop struct {
 		explainer dataExplainer
+		protocol  string
 	}
 )
 
@@ -44,8 +44,12 @@ func (i *http2Interop) Dump(r io.Reader, source string, id int, quiet bool) {
 			var index int
 			for index < n {
 				frameInfo, moreInfo, offset := i.explain(data[index:n])
+				protocol := i.protocol
+				if len(protocol) == 0 {
+					protocol = http2Protocol
+				}
 				buf.WriteString(fmt.Sprintf("%s%s%s\n",
-					color.HiBlueString("%s:(", grpcProtocol),
+					color.HiBlueString("%s:(", protocol),
 					color.HiYellowString(frameInfo),
 					color.HiBlueString(")")))
 				end := index + offset
