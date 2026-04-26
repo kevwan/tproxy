@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.5.1
-	github.com/fatih/color v1.18.0
+	github.com/fatih/color v1.19.0
 	github.com/juju/ratelimit v1.0.2
 	github.com/olekukonko/tablewriter v1.1.3
 	go.mongodb.org/mongo-driver v1.17.7
