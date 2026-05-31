@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="860" viewBox="0 0 860 860" fill="none">
+  <style>
+    text { font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, 'Courier New', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', monospace; }
+    .title { font-size: 16px; font-weight: 700; fill: #1e293b; }
+    .section { font-size: 13px; font-weight: 700; fill: #1e293b; }
+    .label { font-size: 12px; font-weight: 600; }
+    .note { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .proto { font-size: 11px; font-weight: 600; }
+    .flow { font-size: 10px; fill: #475569; }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="3" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L12,6 L0,12 L3,6 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="3" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L12,6 L0,12 L3,6 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="3" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L12,6 L0,12 L3,6 z" fill="#22c55e"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="860" height="860" fill="#ffffff"/>
+  <text x="430" y="28" text-anchor="middle" class="title">tproxy — TCP Proxy Architecture</text>
+
+  <path d="M430 149 L430 160" stroke="#64748b" stroke-width="2" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="488" y="159" text-anchor="middle" class="flow">init &amp; start</text>
+
+  <path d="M430 363 L430 374" stroke="#64748b" stroke-width="2" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="486" y="373" text-anchor="middle" class="flow">relay bytes</text>
+
+  <path d="M430 499 L430 510" stroke="#64748b" stroke-width="2" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="489" y="509" text-anchor="middle" class="flow">tee to parser</text>
+
+  <path d="M430 685 L430 696" stroke="#64748b" stroke-width="2" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="490" y="695" text-anchor="middle" class="flow">print parsed</text>
+
+  <g>
+    <rect x="20" y="46" width="820" height="98" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="40" y="64" class="section">CLI &amp; Config</text>
+
+    <rect x="38" y="78" width="240" height="54" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="158" y="99" text-anchor="middle" class="label" fill="#1e40af">tproxy.go</text>
+    <text x="158" y="115" text-anchor="middle" class="note" fill="#1e40af">entry point</text>
+
+    <rect x="310" y="78" width="240" height="54" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="430" y="93" text-anchor="middle" class="label" fill="#1e40af">Settings</text>
+    <text x="430" y="107" text-anchor="middle" font-size="8.4" font-weight="600" fill="#1e40af">host, port, remote, delay,</text>
+    <text x="430" y="118" text-anchor="middle" font-size="8.4" font-weight="600" fill="#1e40af">protocol, quiet, up/down</text>
+
+    <rect x="582" y="78" width="240" height="54" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="702" y="99" text-anchor="middle" class="label" fill="#1e40af">flag.Parse()</text>
+    <text x="702" y="115" text-anchor="middle" class="note" fill="#1e40af">CLI flags</text>
+  </g>
+
+  <g>
+    <rect x="20" y="174" width="820" height="184" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="40" y="192" class="section">Listener &amp; Connection</text>
+
+    <rect x="38" y="207" width="240" height="54" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="158" y="228" text-anchor="middle" class="label" fill="#1e40af">startListener()</text>
+    <text x="158" y="244" text-anchor="middle" class="note" fill="#1e40af">TCP listen &amp; accept</text>
+
+    <rect x="38" y="287" width="240" height="54" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="158" y="308" text-anchor="middle" class="label" fill="#1e40af">PairedConnection</text>
+    <text x="158" y="324" text-anchor="middle" class="note" fill="#1e40af">client + server pair</text>
+
+    <rect x="582" y="207" width="240" height="54" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="702" y="228" text-anchor="middle" class="label" fill="#b45309">handleClientMessage()</text>
+    <text x="702" y="244" text-anchor="middle" class="note" fill="#b45309">client→server relay</text>
+
+    <rect x="582" y="287" width="240" height="54" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="702" y="308" text-anchor="middle" class="label" fill="#b45309">handleServerMessage()</text>
+    <text x="702" y="324" text-anchor="middle" class="note" fill="#b45309">server→client relay</text>
+
+    <path d="M283 301 C360 301, 454 234, 568 234" stroke="#64748b" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <path d="M283 314 L568 314" stroke="#64748b" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#arrow)"/>
+  </g>
+
+  <g>
+    <rect x="20" y="388" width="820" height="106" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="40" y="406" class="section">Middleware</text>
+
+    <rect x="38" y="420" width="240" height="54" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="158" y="441" text-anchor="middle" class="label" fill="#b45309">delayedWriter</text>
+    <text x="158" y="457" text-anchor="middle" class="note" fill="#b45309">delay server→client</text>
+
+    <rect x="310" y="420" width="240" height="54" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="430" y="441" text-anchor="middle" class="label" fill="#b45309">RateLimiter</text>
+    <text x="430" y="457" text-anchor="middle" class="note" fill="#b45309">up/down ratelimit</text>
+
+    <rect x="582" y="420" width="240" height="54" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="702" y="441" text-anchor="middle" class="label" fill="#1e40af">io.TeeReader</text>
+    <text x="702" y="457" text-anchor="middle" class="note" fill="#1e40af">dest &amp; parser pipe</text>
+  </g>
+
+  <g>
+    <rect x="20" y="524" width="820" height="156" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="40" y="542" class="section">Protocol Parsers (protocol/)</text>
+
+    <rect x="38" y="556" width="185" height="46" rx="10" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="130.5" y="584" text-anchor="middle" class="proto" fill="#6b21a8">text</text>
+
+    <rect x="238" y="556" width="185" height="46" rx="10" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="330.5" y="584" text-anchor="middle" class="proto" fill="#6b21a8">http2</text>
+
+    <rect x="438" y="556" width="185" height="46" rx="10" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="530.5" y="584" text-anchor="middle" class="proto" fill="#6b21a8">grpc</text>
+
+    <rect x="638" y="556" width="185" height="46" rx="10" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="730.5" y="584" text-anchor="middle" class="proto" fill="#6b21a8">redis</text>
+
+    <rect x="38" y="617" width="185" height="46" rx="10" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="130.5" y="645" text-anchor="middle" class="proto" fill="#6b21a8">mysql</text>
+
+    <rect x="238" y="617" width="185" height="46" rx="10" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="330.5" y="645" text-anchor="middle" class="proto" fill="#6b21a8">mongo</text>
+
+    <rect x="438" y="617" width="185" height="46" rx="10" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="530.5" y="645" text-anchor="middle" class="proto" fill="#6b21a8">mqtt</text>
+
+    <rect x="638" y="617" width="185" height="46" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="730.5" y="639" text-anchor="middle" class="proto" fill="#475569">default</text>
+    <text x="730.5" y="652" text-anchor="middle" font-size="10.5" font-weight="600" fill="#475569">(hex dump)</text>
+  </g>
+
+  <g>
+    <rect x="20" y="710" width="820" height="136" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="40" y="728" class="section">Stats &amp; Display</text>
+
+    <rect x="38" y="742" width="360" height="88" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="56" y="758" class="section">Statistics</text>
+    <rect x="50" y="778" width="104" height="36" rx="10" fill="#d1fae5" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="102" y="800" text-anchor="middle" font-size="10.2" font-weight="600" fill="#166534">Stater interface</text>
+    <rect x="166" y="778" width="104" height="36" rx="10" fill="#d1fae5" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="218" y="800" text-anchor="middle" font-size="10.2" font-weight="600" fill="#166534">ConnCounter</text>
+    <rect x="282" y="778" width="104" height="36" rx="10" fill="#d1fae5" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="334" y="800" text-anchor="middle" font-size="10.2" font-weight="600" fill="#166534">StatPrinter</text>
+
+    <rect x="438" y="742" width="360" height="88" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="456" y="758" class="section">Display</text>
+    <rect x="536" y="770" width="164" height="54" rx="10" fill="#d1fae5" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="618" y="791" text-anchor="middle" class="label" fill="#166534">display.</text>
+    <text x="618" y="807" text-anchor="middle" class="note" fill="#166534">PrintlnWithTime</text>
+  </g>
+</svg>

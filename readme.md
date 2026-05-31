@@ -105,3 +105,21 @@ $ tproxy -p 3307 -r localhost:3306 -q -s
 ## Give a Star! ⭐
 
 If you like or are using this project, please give it a **star**. Thanks!
+
+## Architecture
+
+tproxy acts as a transparent TCP middleman: it listens on a local port, forwards every connection to the configured remote, and simultaneously tees the byte stream through a protocol-aware parser so each message is decoded and printed in real time.
+
+![tproxy architecture](tproxy-architecture.svg)
+
+Key components:
+
+| Component | Role |
+| --- | --- |
+| **CLI & Config** | Parses flags (`-p`, `-r`, `-t`, `-d`, `-up`, `-down`, `-s`, `-q`) into a `Settings` struct |
+| **Listener / PairedConnection** | Accepts TCP connections and pairs each client socket with a new outbound server socket |
+| **handleClientMessage** | Relays client→server bytes, subject to the upload rate limit |
+| **handleServerMessage** | Relays server→client bytes, subject to the download rate limit and optional packet delay |
+| **io.TeeReader** | Splits the live byte stream — one copy goes to the destination socket, the other is piped to the protocol parser |
+| **Protocol Parsers** | Decode the piped copy for human-readable output: `text`, `http2`, `grpc`, `redis`, `mysql`, `mongo`, `mqtt`, or raw hex |
+| **Stats & Display** | `ConnCounter` + `StatPrinter` track open connections and periodically report retransmit rate / RTT; `display` package prefixes every log line with a timestamp |
