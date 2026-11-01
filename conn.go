@@ -66,6 +66,7 @@ func (c *PairedConnection) handleClientMessage() {
 	defer c.stop()
 
 	r, w := io.Pipe()
+	defer w.Close()
 	tee := io.MultiWriter(c.svrConn, w)
 	go protocol.CreateInterop(settings.Protocol).Dump(r, protocol.ClientSide, c.id, settings.Quiet)
 	c.copyDataWithRateLimit(tee, c.cliConn, protocol.ClientSide, settings.UpLimit)
@@ -76,6 +77,7 @@ func (c *PairedConnection) handleServerMessage() {
 	defer c.stop()
 
 	r, w := io.Pipe()
+	defer w.Close()
 	tee := io.MultiWriter(newDelayedWriter(c.cliConn, settings.Delay, c.stopChan), w)
 	go protocol.CreateInterop(settings.Protocol).Dump(r, protocol.ServerSide, c.id, settings.Quiet)
 	c.copyDataWithRateLimit(tee, c.svrConn, protocol.ServerSide, settings.DownLimit)
