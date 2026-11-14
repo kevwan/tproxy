@@ -13,8 +13,8 @@ jobs:
         goos: [ linux, windows, darwin ]
         goarch: [ amd64, arm64 ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: wangyoucao577/go-release-action@v1.40
+      - uses: actions/checkout@v7.0.1
+      - uses: wangyoucao577/go-release-action@v1.55
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
