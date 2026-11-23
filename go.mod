@@ -8,7 +8,7 @@ require (
 	github.com/juju/ratelimit v1.0.2
 	github.com/olekukonko/tablewriter v1.1.5
 	go.mongodb.org/mongo-driver/v2 v2.10.0
-	golang.org/x/net v0.62.0
+	golang.org/x/net v0.63.0
 	google.golang.org/protobuf v1.36.12
 )
 
