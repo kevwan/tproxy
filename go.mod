@@ -3,7 +3,7 @@ module github.com/kevwan/tproxy
 go 1.26.0
 
 require (
-	github.com/eclipse/paho.mqtt.golang v1.5.1
+	github.com/eclipse/paho.mqtt.golang v1.5.2
 	github.com/fatih/color v1.19.0
 	github.com/juju/ratelimit v1.0.2
 	github.com/olekukonko/tablewriter v1.1.5
